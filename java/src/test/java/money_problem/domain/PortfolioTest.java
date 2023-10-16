@@ -42,13 +42,12 @@ public class PortfolioTest {
         assertThat(portfolio.getContent()).isEqualTo(result);
 
         portfolio.add(usdAmount, usdCurrency);
-        result.put(usdCurrency, usdAmount);
+        result.put(usdCurrency, result.getOrDefault(usdCurrency, 0d) + usdAmount);
 
         assertThat(portfolio.getContent()).isEqualTo(result);
     }
 
     @Test
     void testTotalAmountInPortfolio() {
-
     }
 }
