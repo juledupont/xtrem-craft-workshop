@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class MoneyTest {
 
     @Test
-    void testBeAddedToAnotherMoneyInSameCurreny() throws NegativeAmountException {
+    void testAddToAnotherMoneyInSameCurrency() throws NegativeAmountException, DifferentCurrenciesAmountException {
         // Arrange
         double moneyEURAmount = 10.0;
         Money moneyEUR = new Money(moneyEURAmount, Currency.EUR);
@@ -22,16 +22,20 @@ public class MoneyTest {
 
         // Assert
         assertThat(moneyEUR.getAmount()).isEqualTo(moneyEURAmount + moneyEURAmount2);
+    }
 
-        /*
-         // Arrange
-         Money moneyEUR = new Money(moneyEURAmount, Currency.EUR);
-         double moneyUSDAmount = 5.0;
-         Money moneyUSD = new Money(moneyUSDAmount, Currency.USD);
+    void testErrorWhenAddingDifferentCurrencies() throws NegativeAmountException, DifferentCurrenciesAmountException {
+        // Arrange
+        double moneyEURAmount = 10.0;
+        Money moneyEUR = new Money(moneyEURAmount, Currency.EUR);
 
-         //Act
-         moneyEUR.addMoneyInSameCurrency(moneyUSD);
-         */
+        double moneyUSDAmount = 5.0;
+        Money moneyUSD = new Money(moneyUSDAmount, Currency.USD);
+
+        // Act and Assert
+        assertThrows(DifferentCurrenciesAmountException.class, () -> {
+            moneyEUR.addMoneyInSameCurrency(moneyUSD);
+        });
     }
 
     @Test
@@ -43,7 +47,7 @@ public class MoneyTest {
     }
 
     @Test
-    void testBeMultipliedByNumeralValue() throws NegativeAmountException {
+    void testMultiplyByNumeralValue() throws NegativeAmountException {
         // Arrange
         double moneyEURAmount = 15.0;
         Money moneyEUR = new Money(moneyEURAmount, Currency.EUR);
@@ -52,12 +56,12 @@ public class MoneyTest {
         // Act
         moneyEUR.multiplyMoney(factor);
 
-        // Asserts
+        // Assert
         assertThat(moneyEUR.getAmount()).isEqualTo(moneyEURAmount * factor);
     }
 
     @Test
-    void testBeDividedByNumerateValue() throws NegativeAmountException {
+    void testDivideByNumerateValue() throws NegativeAmountException {
         // Arrange
         double moneyEURAmount = 15.0;
         Money moneyEUR = new Money(moneyEURAmount, Currency.EUR);
@@ -66,7 +70,7 @@ public class MoneyTest {
         // Act
         moneyEUR.divideMoney(quotient);
 
-        // Asserts
+        // Assert
         assertThat(moneyEUR.getAmount()).isEqualTo(moneyEURAmount / quotient);
     }
 }

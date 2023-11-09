@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class BankTest {
 
     @Test
-    void testConvertionDifferentCurrenciesReturnsRightAmount() throws MissingExchangeRateException {
+    void testConvertDifferentCurrenciesReturnsRightAmount() throws MissingExchangeRateException {
         //Arrange
         Double exchangeRate = 1.2;
         int baseAmount = 10;
@@ -23,7 +23,7 @@ class BankTest {
     }
 
     @Test
-    void testConvertionSameCurrenciesReturnsRightAmount() throws MissingExchangeRateException {
+    void testConvertSameCurrenciesReturnsRightAmount() throws MissingExchangeRateException {
         //Arrange
         Double exchangeRate = 1.2;
         int baseAmount = 10;
@@ -42,7 +42,7 @@ class BankTest {
         Double exchangeRate = 1.2;
         int baseAmount = 10;
         Class expectedThrownClass = MissingExchangeRateException.class;
-        String expectedThrownMessage = "EUR->KRW";
+        String expectedThrownMessage = "Missing exchange rate to perform the operation EUR->KRW";
         Bank bank = Bank.createBankWithExchangeRate(EUR, USD, exchangeRate);
         //Act/Assert
         assertThatThrownBy(() -> bank.convertBaseAmountToQuote(10, EUR, KRW))
